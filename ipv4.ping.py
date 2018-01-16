@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # ping a list of host with threads for increase speed
-# use standard linux /usr/bin/ping utility
+# use standard linux /usr/bin/ping | /bin/ping utility
 
 from threading import Thread
 import subprocess
@@ -39,7 +39,12 @@ def thread_pinger(i, q):
     # get an IP item form queue
     ip = q.get()
     # ping it
+    # uncomment this if your distro debian,ubuntu,centos or fedora
+    #args=['/bin/ping', '-c', '10', '-W', '1', str(ip)]
+
+    # uncomment this if your distro solus
     args=['/usr/bin/ping', '-c', '10', '-W', '1', str(ip)]
+
     p_ping = subprocess.Popen(args,
                               shell=False,
                               stdout=subprocess.PIPE)

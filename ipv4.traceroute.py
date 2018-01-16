@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # traceroute a list of host with threads for increase speed
-# use standard linux /usr/bin/traceroute utility
+# use standard linux /usr/bin/traceroute | /bin/traceroute utility
 
 from threading import Thread
 import subprocess
@@ -39,7 +39,12 @@ def thread_pinger(i, q):
     # get an IP item form queue
     ip = q.get()
     # traceroute it
-    args=['/usr/bin/traceroute', '-q', '2', str(ip)]
+    # uncomment this if your distro debian,ubuntu,centos, or fedora
+    #args=['/bin/traceroute', '-q', '1', str(ip)]
+
+    # uncomment this if your distro solus
+    args=['/usr/bin/traceroute', '-q', '1', '--resolve-hostnames', str(ip)]
+
     p_trace = subprocess.Popen(args,
                               shell=False,
                               stdout=subprocess.PIPE)
@@ -76,7 +81,13 @@ while True:
   print(msg)
 
   # process raw messages for mysql
-  tracedata = re.findall(r'([0-9].*?) (.*|) \((.*)\)  (.*?) ms', msg, re.M)
+  # uncomment this if your distro using debian,ubuntu,centos or fedora
+  #tracedata = re.findall(r'([0-9].*?) (.+) \((.*)\)  (.*?) ms', msg, re.M)
+
+  # uncommend this if your distro solus
+  tracedata = re.findall(r'([0-9].*?) (.+) \((.+)\) (.*)ms', msg, re.M)
+
+  # looping output perline
   for item in tracedata:
       print(item)
 
