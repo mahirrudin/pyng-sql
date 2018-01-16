@@ -11,10 +11,16 @@
 
 ### instalasi dan penggunaan
 
-1. clone repositori ini.
-2. import file database.sql ke mysql/mariadb server.
-3. edit script dan ubah koneksi database.
+1. clone atau download repositori ini.
+```
+git clone https://github.com/mahirrudin/pyng-sql.git
+```
 
+2. import file database.sql ke mysql/mariadb server.
+```
+mysql -u root -p < database.sql
+```
+3. edit script dan ubah koneksi database.
 ```
 connection = pymysql.connect(
         host = 'localhost',
@@ -25,3 +31,6 @@ connection = pymysql.connect(
 ```
 
 4. Jalankan scriptnya.
+```
+python ipv4.ping.py
+```
