@@ -76,14 +76,14 @@ while True:
   print(msg)
 
   # process raw messages for mysql
-  #tracedata = re.findall(r'([0-9].) (.+) (.+) (.+) (.+)', msg, re.M)
-  #for item in tracedata:
-  #    print(item)
+  tracedata = re.findall(r'([0-9].*?) (.*|) \((.*)\)  (.*?) ms', msg, re.M)
+  for item in tracedata:
+      print(item)
 
-      #with connection.cursor() as cursor:
+      with connection.cursor() as cursor:
           #sql insert data from collected item
-          #sql = "INSERT INTO `traceroute_result_ipv4` (`destination`, `icmp_seq`, `icmp_ttl`, `icmp_time`) VALUES " + str(item)
-          #cursor.execute(sql)
-          #connection.commit()
+          sql = "INSERT INTO `trace_result_ipv4` (`trace_hop`, `trace_hostname`, `trace_ip`, `trace_time`) VALUES " + str(item)
+          cursor.execute(sql)
+          connection.commit()
 
 # end of program
