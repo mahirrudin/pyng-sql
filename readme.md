@@ -5,8 +5,9 @@
 ### kebutuhan program
 1. Sistem operasi linux dengan **ping, ping6, traceroute, traceroute6**
 2. Python 2.7
-3. [PyMySQL](https://github.com/PyMySQL/PyMySQL)
-4. MySQL/MariaDB Server
+3. Python [PyMySQL](https://github.com/PyMySQL/PyMySQL)
+4. Python Regex
+5. MySQL/MariaDB Server
 
 ### instalasi dan penggunaan
 
