@@ -15,7 +15,7 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
-DROP DATABASE IF EXISTS `dbing`;
+DROP DATABASE IF EXISTS `dbping`;
 CREATE DATABASE `dbping`;
 
 --
@@ -73,6 +73,33 @@ INSERT INTO `ping_result_ipv4` VALUES (1,'2018-01-16 12:43:54','8.8.8.8',0,52.00
 UNLOCK TABLES;
 
 --
+-- Table structure for table `ping_result_ipv6`
+--
+
+DROP TABLE IF EXISTS `ping_result_ipv6`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ping_result_ipv6` (
+  `id` int(20) NOT NULL AUTO_INCREMENT,
+  `datetime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `destination` varchar(255) DEFAULT NULL,
+  `icmp_seq` int(10) DEFAULT NULL,
+  `icmp_ttl` float(10,4) DEFAULT NULL,
+  `icmp_time` float(10,4) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `ping_result_ipv6`
+--
+
+LOCK TABLES `ping_result_ipv6` WRITE;
+/*!40000 ALTER TABLE `ping_result_ipv6` DISABLE KEYS */;
+/*!40000 ALTER TABLE `ping_result_ipv6` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `trace_result_ipv4`
 --
 
@@ -98,6 +125,33 @@ LOCK TABLES `trace_result_ipv4` WRITE;
 /*!40000 ALTER TABLE `trace_result_ipv4` DISABLE KEYS */;
 /*!40000 ALTER TABLE `trace_result_ipv4` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Table structure for table `trace_result_ipv6`
+--
+
+DROP TABLE IF EXISTS `trace_result_ipv6`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `trace_result_ipv6` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `trace_hop` int(10) DEFAULT NULL,
+  `trace_hostname` varchar(255) DEFAULT NULL,
+  `trace_ip` varchar(255) DEFAULT NULL,
+  `trace_time` float(10,4) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `trace_result_ipv6`
+--
+
+LOCK TABLES `trace_result_ipv6` WRITE;
+/*!40000 ALTER TABLE `trace_result_ipv6` DISABLE KEYS */;
+/*!40000 ALTER TABLE `trace_result_ipv6` ENABLE KEYS */;
+UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -108,4 +162,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-01-16 21:28:25
+-- Dump completed on 2018-01-18 21:52:20
