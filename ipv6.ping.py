@@ -3,6 +3,7 @@
 # use standard linux /usr/bin/ping | /bin/ping utility
 
 from threading import Thread
+import os
 import subprocess
 import Queue
 import re
@@ -38,12 +39,11 @@ def thread_pinger(i, q):
   while True:
     # get an IP item form queue
     ip = q.get()
-    # ping it
-    # uncomment this if your distro debian,ubuntu,centos or fedora
-    #args=['/bin/ping', '-c', '10', '-W', '1', str(ip)]
 
-    # uncomment this if your distro solus
-    args=['/usr/bin/ping', '-c', '10', '-W', '1', str(ip)]
+    if os.path.isfile('/etc/solus-release'):
+        args=['/usr/bin/ping6', '-c', '10', '-W', '1', str(ip)]
+    else:
+        args=['/bin/ping6', '-c', '10', '-W', '1', str(ip)]
 
     p_ping = subprocess.Popen(args,
                               shell=False,

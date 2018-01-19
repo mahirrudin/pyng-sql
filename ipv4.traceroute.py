@@ -3,6 +3,7 @@
 # use standard linux /usr/bin/traceroute | /bin/traceroute utility
 
 from threading import Thread
+import os
 import subprocess
 import Queue
 import re
@@ -14,6 +15,7 @@ ips_q = Queue.Queue()
 out_q = Queue.Queue()
 
 # connection to the database
+# change your credential access for database
 connection = pymysql.connect(
         host = 'localhost',
         user = 'usrping',
@@ -32,18 +34,19 @@ with connection.cursor() as cursor:
 for i in result:
     ips.append((i['ipv4']))
 
-# thread code : wraps system ping command
+# thread code : wraps system traceroute command
 def thread_pinger(i, q):
   """Pings hosts in queue"""
   while True:
     # get an IP item form queue
     ip = q.get()
     # traceroute it
-    # uncomment this if your distro debian,ubuntu,centos, or fedora
-    #args=['/usr/bin/traceroute', '-q', '1', str(ip)]
-
-    # uncomment this if your distro solus
-    args=['/usr/bin/traceroute', '-q', '1', '--resolve-hostnames', str(ip)]
+    if os.path.isfile ('/etc/solus-release'):
+        args=['/usr/bin/traceroute', '-q', '1', '--resolve-hostnames', str(ip)]
+	sqlcmd = "INSERT INTO `trace_result_ipv4` (`trace_destination`,`trace_hop`, `trace_ip`, `trace_hostname`, `trace_time`) VALUES "
+    else:
+        args=['/usr/bin/traceroute', '-q', '-1', str(ip)]
+	sqlcmd = "INSERT INTO `trace_result_ipv4` (`trace_destination`,`trace_hop`, `trace_hostname`, `trace_ip`, `trace_time`) VALUES "
 
     p_trace = subprocess.Popen(args,
                               shell=False,
@@ -61,8 +64,8 @@ def thread_pinger(i, q):
         #print(items)
 
         with connection.cursor() as cursor:
-            #sql insert data from collected item
-            sql = "INSERT INTO `trace_result_ipv4` (`trace_destination`, `trace_hop`, `trace_hostname`, `trace_ip`, `trace_time`) VALUES " + str(items)
+            # sql insert data from collected item
+            sql = sqlcmd + str(items)
             cursor.execute(sql)
             connection.commit()
 
