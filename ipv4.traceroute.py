@@ -40,7 +40,7 @@ def thread_pinger(i, q):
     ip = q.get()
     # traceroute it
     # uncomment this if your distro debian,ubuntu,centos, or fedora
-    #args=['/bin/traceroute', '-q', '1', str(ip)]
+    #args=['/usr/bin/traceroute', '-q', '1', str(ip)]
 
     # uncomment this if your distro solus
     args=['/usr/bin/traceroute', '-q', '1', '--resolve-hostnames', str(ip)]
@@ -53,6 +53,21 @@ def thread_pinger(i, q):
 
     # put output msg
     out_q.put(p_trace_out)
+    msg = out_q.get_nowait()
+    tracedata = re.findall(r'([0-9].*?) (.+) \((.+)\) (.*)ms', msg, re.M)
+    # looping output perline
+    for item in tracedata:
+        items = tuple([ip]) + item
+        #print(items)
+
+        with connection.cursor() as cursor:
+            #sql insert data from collected item
+            sql = "INSERT INTO `trace_result_ipv4` (`trace_destination`, `trace_hop`, `trace_hostname`, `trace_ip`, `trace_time`) VALUES " + str(items)
+            cursor.execute(sql)
+            connection.commit()
+
+    # print raw stdout
+    print(msg)
 
     # update queue : this ip is processed
     q.task_done()
@@ -69,32 +84,5 @@ for ip in ips:
 
   # wait until worker threads are done to exit
   ips_q.join()
-
-# print result and process to database
-while True:
-  try:
-    msg = out_q.get_nowait()
-  except Queue.Empty:
-    break
-
-  # print raw messages
-  print(msg)
-
-  # process raw messages for mysql
-  # uncomment this if your distro using debian,ubuntu,centos or fedora
-  #tracedata = re.findall(r'([0-9].*?) (.+) \((.*)\)  (.*?) ms', msg, re.M)
-
-  # uncommend this if your distro solus
-  tracedata = re.findall(r'([0-9].*?) (.+) \((.+)\) (.*)ms', msg, re.M)
-
-  # looping output perline
-  for item in tracedata:
-      print(item)
-
-      with connection.cursor() as cursor:
-          #sql insert data from collected item
-          sql = "INSERT INTO `trace_result_ipv4` (`trace_hop`, `trace_hostname`, `trace_ip`, `trace_time`) VALUES " + str(item)
-          cursor.execute(sql)
-          connection.commit()
 
 # end of program

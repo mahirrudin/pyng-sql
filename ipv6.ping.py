@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # ping a list of host with threads for increase speed
-# use standard linux /usr/bin/ping6 | /bin/ping6 utility
+# use standard linux /usr/bin/ping | /bin/ping utility
 
 from threading import Thread
 import subprocess
@@ -40,10 +40,10 @@ def thread_pinger(i, q):
     ip = q.get()
     # ping it
     # uncomment this if your distro debian,ubuntu,centos or fedora
-    #args=['/bin/ping6', '-c', '10', '-W', '1', str(ip)]
+    #args=['/bin/ping', '-c', '10', '-W', '1', str(ip)]
 
     # uncomment this if your distro solus
-    args=['/usr/bin/ping6', '-c', '10', '-W', '1', str(ip)]
+    args=['/usr/bin/ping', '-c', '10', '-W', '1', str(ip)]
 
     p_ping = subprocess.Popen(args,
                               shell=False,
@@ -53,6 +53,20 @@ def thread_pinger(i, q):
 
     # put output msg
     out_q.put(p_ping_out)
+
+    # proses output msg to database
+    msg = out_q.get_nowait()
+    pingdata = re.findall(r'from (.*): icmp_seq=(.*) ttl=(.*) time=(.*) ms', msg, re.M)
+    for item in pingdata:
+        # print(item)
+        with connection.cursor() as cursor:
+            #sql insert data from collected items
+            sql = "INSERT INTO `ping_result_ipv6` (`destination`, `icmp_seq`, `icmp_ttl`, `icmp_time`) VALUES " + str(item)
+            cursor.execute(sql)
+            connection.commit()
+
+    # print raw msg
+    print(msg)
 
     # update queue : this ip is processed
     q.task_done()
@@ -69,27 +83,5 @@ for ip in ips:
 
   # wait until worker threads are done to exit
   ips_q.join()
-
-# print result and process to database
-while True:
-  try:
-    msg = out_q.get_nowait()
-  except Queue.Empty:
-    break
-
-  # print raw messages
-  print(msg)
-
-  # process raw messages for mysql
-  pingdata = re.findall(r'from (.*): icmp_seq=(.*) ttl=(.*) time=(.*) ms', msg, re.M)
-
-  for item in pingdata:
-      # print(item)
-
-      with connection.cursor() as cursor:
-          #sql insert data from collected item
-          sql = "INSERT INTO `ping_result_ipv6` (`destination`, `icmp_seq`, `icmp_ttl`, `icmp_time`) VALUES " + str(item)
-          cursor.execute(sql)
-          connection.commit()
 
 # end of program
