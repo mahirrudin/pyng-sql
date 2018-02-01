@@ -29,8 +29,11 @@ connection = pymysql.connect(
         db = 'dbping',
         cursorclass = pymysql.cursors.DictCursor)
 ```
-
-4. Jalankan scriptnya.
+4. insert data ke tabel destination
+```
+INSERT INTO `destination` (domain,ipv4,ipv6) VALUES ('www.google.co.id','216.58.200.99','2001:4860:4860::8888');
+```
+5. Jalankan scriptnya.
 ```
 python ipv4.ping.py
 ```

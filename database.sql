@@ -20,8 +20,8 @@
 --
 
 DROP DATABASE IF EXISTS `dbping`;
-CREARE DATABASE `dbping`;
-
+CREATE DATABASE `dbping`;
+USE `dbping`;
 
 --
 -- Table structure for table `destination`
