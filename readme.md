@@ -12,16 +12,16 @@
 ### instalasi dan penggunaan
 
 1. clone atau download repositori ini.
-```
+```bash
 git clone https://github.com/mahirrudin/pyng-sql.git
 ```
 
 2. import file database.sql ke mysql/mariadb server.
-```
+```sql
 mysql -u root -p < database.sql
 ```
 3. edit script dan ubah koneksi database.
-```
+```python
 connection = pymysql.connect(
         host = 'localhost',
         user = 'usrping',
@@ -29,11 +29,12 @@ connection = pymysql.connect(
         db = 'dbping',
         cursorclass = pymysql.cursors.DictCursor)
 ```
-4. insert data ke tabel destination
-```
-INSERT INTO `destination` (domain,ipv4,ipv6) VALUES ('www.google.co.id','216.58.200.99','2001:4860:4860::8888');
+4. insert data ip ke tabel destination. Contoh domain www.google.co.id.
+```sql
+INSERT INTO `destination` (domain,ipv4,ipv6) VALUES ('www.google.co.id',''172.217.16.35,'2a00:1450:401b:802::2003');
+,'2001:4860:4860::8888');
 ```
 5. Jalankan scriptnya.
-```
+```bash
 python ipv4.ping.py
 ```
