@@ -31,8 +31,8 @@ connection = pymysql.connect(
 ```
 4. insert data ip ke tabel destination. Contoh domain www.google.co.id.
 ```sql
-INSERT INTO `destination` (domain,ipv4,ipv6) VALUES ('www.google.co.id',''172.217.16.35,'2a00:1450:401b:802::2003');
-,'2001:4860:4860::8888');
+INSERT INTO `destination` (domain,ipv4,ipv6)
+VALUES ('www.google.co.id',''172.217.16.35,'2a00:1450:401b:802::2003');
 ```
 5. Jalankan scriptnya.
 ```bash
