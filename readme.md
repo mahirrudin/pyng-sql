@@ -38,3 +38,7 @@ VALUES ('www.google.co.id',''172.217.16.35,'2a00:1450:401b:802::2003');
 ```bash
 python ipv4.ping.py
 ```
+
+### demo
+
+[![asciicast](https://asciinema.org/a/fmOH0cVpf60Q8IuTxnAeP9Zqa.png)](https://asciinema.org/a/fmOH0cVpf60Q8IuTxnAeP9Zqa)
