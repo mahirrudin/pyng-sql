@@ -1,6 +1,6 @@
 ## pyng-sql
 
-**pyng-sql** adalah python script yang dapat menyimpan hasi dari ping/traceroute ke database mysql. **pyng-sql** memanfaatkan program lain untuk dapat bekerja yaitu *ping, ping6, traceroute, traceroute6*.
+**pyng-sql** adalah python script yang dapat menyimpan hasil dari ping/traceroute ke database mysql. **pyng-sql** memanfaatkan program lain untuk dapat bekerja yaitu *ping, ping6, traceroute, traceroute6*.
 
 ### kebutuhan program
 1. Sistem operasi linux dengan **ping, ping6, traceroute, traceroute6**
@@ -40,5 +40,7 @@ python ipv4.ping.py
 ```
 
 ### demo
+
+Penggunaan mycli pada demo dibawah hanya untuk melihat record database melalui cli. Anda bisa menggunakan software mysql client yang lain.
 
 [![asciicast](https://asciinema.org/a/fmOH0cVpf60Q8IuTxnAeP9Zqa.png)](https://asciinema.org/a/fmOH0cVpf60Q8IuTxnAeP9Zqa)
